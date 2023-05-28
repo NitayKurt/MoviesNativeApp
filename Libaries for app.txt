@@ -6,3 +6,9 @@ npm add @react-navigation/native
 @react-navigation/stack
 npm install -D react-native-dotenv
 react-native-web@~0.18.10, react-dom@18.2.0, @expo/webpack-config@^18.0.1
+npm install -g expo-cli
+expo init tab-navigation-icons
+npm install --save react-navigation react-native-gesture-handler 
+npm install --save react-native-vector-icons
+npm install react-native-paper
+npm install react-native-safe-area-context
