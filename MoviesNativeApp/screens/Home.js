@@ -22,13 +22,13 @@ export default function Home() {
       console.error(error);
     }
   }
-  const just = () =>{
+  const addToFav = () =>{
     console.log(`pressed`)
   }
 
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.main}>
       <Searchbar collapsable={true} onEndEditing={getMoviesFromApi}></Searchbar>
       <ScrollView>
         <Card>
@@ -40,7 +40,7 @@ export default function Home() {
           <Card.Cover source={{ uri: 'https://picsum.photos/700' }} ></Card.Cover>
         <Card.Actions>
             <Button>Move to website</Button>
-            <Button style={styles.favBotton} onPress={just}>Add To Favourites</Button>
+            <Button style={styles.favBotton} onPress={addToFav}>Add To Favourites</Button>
         </Card.Actions>
       </Card>
       </ScrollView>
@@ -49,11 +49,14 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
+  main:{
+    backgroundColor:"#005f73",
+    flex:1,
+  },
   favBotton:{
     backgroundColor:"green",
     color:"white",
     borderRadius:10,
     marginLeft:10,
-    
   },
 })

@@ -6,6 +6,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Home from './screens/Home';
 import Favourites from './screens/Favourites';
+import Login from './screens/Login';
+import Register from './screens/Register';
 
 export default function App() {
 
@@ -32,6 +34,8 @@ export default function App() {
       })}>
         <Tab.Screen name="Home" component={Home} options={{tabBarActiveBackgroundColor:"aqua"}}  />
         <Tab.Screen name="Favourites" component={Favourites} options={{tabBarActiveBackgroundColor:"aqua"}}/>
+        <Tab.Screen name="Login" component={Login} options={{tabBarActiveBackgroundColor:"aqua"}}/>
+        <Tab.Screen name="Register" component={Register} options={{tabBarActiveBackgroundColor:"aqua"}}/>
       </Tab.Navigator>
     </NavigationContainer>
   );
