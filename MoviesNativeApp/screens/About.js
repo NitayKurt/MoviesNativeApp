@@ -1,11 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-export default function Favourites() {
+export default function About() {
   return (
     <View>
-      <Text>Favourites</Text>
-      <Text>Remove from Favourites Button</Text>
+      <Text>About</Text>
     </View>
   )
 }

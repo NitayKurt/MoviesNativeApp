@@ -29,8 +29,9 @@ export default function Home() {
 
   return (
     <SafeAreaView style={styles.main}>
+      {/* here we need to send the input to function that insert the api what to search */}
       <Searchbar collapsable={true} onEndEditing={getMoviesFromApi}></Searchbar>
-      <ScrollView>
+      <ScrollView horizontal={true}>
         <Card>
           <Card.Title title={"Movie Name"} subtitle={"YEAR"} left={LeftContent} />
             <Card.Content>

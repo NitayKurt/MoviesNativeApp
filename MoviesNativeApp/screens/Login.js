@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Register from './Register';
-
+import { signInWithEmailAndPassword } from "firebase/auth";
+import {auth} from '../firebase-config';
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
@@ -10,15 +11,33 @@ export default function Login({ navigation }) {
 
 
 
-  const handleSubmit = () => {
-    if (email && password) {
-      // Perform your login logic here
-      console.log(`Login successful , email:${email} password:${password}`);
-      alert(`Login successful`);
-    } else {
-      alert('Please fill in all fields');
+  const onSubmit = () => {
+    if (email == '' || email == null ) {
+      alert('Invalid email', 'Please enter a valid email address');
+      setEmail("");
+      return;
     }
-  };
+    if(password == '' || password == null){
+      alert('Invalid password', 'Please enter a valid password');
+      setPassword("");
+      return;
+    }
+    
+    console.log(`Login Success ,Email: ${email}, Password: ${password}`);
+    signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      alert("Login successfully!");
+      setEmail("");
+      setPassword("");
+      navigation.navigate("Home");
+    })
+    .catch((err) => {
+      console.log(err)
+      alert(err);
+
+    });
+  
+  }
 
 
   const handleRegister = () => {
@@ -27,6 +46,7 @@ export default function Login({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={{color:'white', fontSize: 30, fontWeight: 'bold', marginBottom: 20,}}>Welcome to Movie App</Text>
       <View style={styles.innerContainer}>
         <Text style={styles.title}>Login</Text>
 
@@ -46,7 +66,7 @@ export default function Login({ navigation }) {
           onChangeText={setPassword}
         />
 
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        <TouchableOpacity style={styles.button} onPress={onSubmit}>
           <Text style={styles.buttonText}>Log Me In</Text>
         </TouchableOpacity>
 

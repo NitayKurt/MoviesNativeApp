@@ -1,64 +1,138 @@
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
+import {auth, database} from '../firebase-config';
+import SelectDropdown from 'react-native-select-dropdown'
+import ages from '../assets/ages';
+import { Avatar } from 'react-native-paper';
 
+const movieIcon = props => <Avatar.Icon {...props} icon="movie" />
 export default function Register({ navigation }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const[email, setEmail] = useState("");
+  const[firstName, setFirstName] = useState("");
+  const[lastName, setLastName] = useState("");
+  const[password, setPassword] = useState("");
+  const[age, setAge] = useState(0);
+  const[users]= useState([]);
 
-  const handleSubmit = () => {
-    if (email && password && confirmPassword) {
-      if (password === confirmPassword) {
-        // Perform your register logic here
-        console.log(`Registration successful , email:${email} password:${password}`);
-        alert('Registration successful');
-      } else {
-       alert('Passwords do not match');
-      }
-    } else {
-      alert('Please fill in all fields');
+   //convert the JSON file to numbers for the select drop down: 
+   const ageNumbers = ages.ages.map((age) => JSON.stringify(age.age));
+
+  const onSubmit = () => {
+    if (age < 18) {
+      alert("You are too young for this app");
+      setEmail(null);
+      setFirstName(null);
+      setLastName(null);
+      setPassword(null);
+      setAge(0);
+      return;
     }
-  };
 
+    if (email == '' || email == null ) {
+      alert('Invalid email', 'Please enter a valid email address!');
+      setEmail("");
+      return;
+    }
 
-  const handleLogin = () => {
-    navigation.navigate('Login');
-  };
+    if (firstName == '' || firstName == null ) {
+      alert('Invalid First Name', 'Please enter a First Name!');
+      setFirstName("");
+      return;
+    }
+    if (lastName == '' || lastName == null ) {
+      alert('Invalid Last Name', 'Please enter a Last Name!');
+      setLastName("");
+      return;
+    }
+    if(password == '' || password == null){
+      alert('Invalid password', 'Please enter a valid password!');
+      setPassword("");
+      return;
+    }
+    createUserWithEmailAndPassword(auth, email, password)
+    .then(async(userCredential) => {
+      const user = userCredential.user;
+      await addDoc(collection(database, "USERS-MOVIE-APP"), {
+        uid: user.uid,
+        email:email,
+        firstName:firstName,
+        lastName:lastName,
+        age: age,
+      });
+
+      alert("Signup successfully!");
+      navigation.navigate("Login");
+
+    })
+    .catch((err) => {
+      console.log(err);
+      alert(err)
+    });
+  
+  }
+
+  const registeredUser = () => {
+    navigation.navigate("Login");
+  }
+ 
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={{color:'white', fontSize: 30, fontWeight: 'bold', marginBottom: 20,}}>Welcome to Movie App</Text>
       <View style={styles.innerContainer}>
         <Text style={styles.title}>Register</Text>
 
         <TextInput
           style={styles.inputField}
-          placeholder='Email'
-          keyboardType='email-address'
+          placeholder="Email"
           value={email}
           onChangeText={setEmail}
+          autoCapitalize="none"
+          keyboardType="email-address"
         />
-
+        
         <TextInput
           style={styles.inputField}
-          placeholder='Password'
-          secureTextEntry
+          placeholder="First Name"
+          value={firstName}
+          onChangeText={setFirstName}
+          autoCapitalize="none"
+          keyboardType="default"
+        />
+      
+        <TextInput
+          style={styles.inputField}
+          placeholder="Last Name"
+          value={lastName}
+          onChangeText={setLastName}
+          autoCapitalize="none"
+          keyboardType="default"
+        />
+    
+        <TextInput
+          style={styles.inputField}
+          placeholder="Password"
           value={password}
           onChangeText={setPassword}
+          secureTextEntry={true}
+        />
+        <SelectDropdown
+          defaultButtonText='Select Your Age'
+          buttonStyle={styles.inputField}
+          data={ageNumbers}
+          onSelect={(selectedItem, index) => {
+            setAge(selectedItem)
+          }}
+          
         />
 
-        <TextInput
-          style={styles.inputField}
-          placeholder='Confirm Password'
-          secureTextEntry
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-        />
-
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Submit</Text>
+        <TouchableOpacity style={styles.button} onPress={onSubmit}>
+          <Text style={styles.buttonText}>Sign Me Up</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button1} onPress={handleLogin}>
+        <TouchableOpacity style={styles.button1} onPress={registeredUser}>
           <Text style={styles.buttonText}>Already Registered?</Text>
         </TouchableOpacity>
       </View>
@@ -88,6 +162,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 15,
     height: 40,
+    width: '100%',
   },
   button: {
     backgroundColor: 'green',
