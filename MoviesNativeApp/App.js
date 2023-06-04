@@ -108,6 +108,8 @@ export default function App() {
                 iconName = focused ? 'home' : 'home-outline';
               } else if (route.name === favouritesName) {
                 iconName = focused ? 'heart' : 'heart-outline';
+              } else if (route.name === aboutName) { 
+                iconName = focused ? 'information-circle' : 'information-circle-outline';
               }
               return <Ionicons name={iconName} size={size} color={color} />;
             }
