@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View,Image } from 'react-native';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import {auth, database} from '../firebase-config';
 import SelectDropdown from 'react-native-select-dropdown'
 import ages from '../assets/ages';
@@ -18,6 +18,14 @@ export default function Register({ navigation }) {
 
    //convert the JSON file to numbers for the select drop down: 
    const ageNumbers = ages.ages.map((age) => JSON.stringify(age.age));
+  
+
+  //create a new user in the database
+   const createFavoritesCollection = async (userId) => {
+    const favoritesCollectionRef = collection(database, `USERS-MOVIE-APP/${userId}/Favorites`);
+    await setDoc(favoritesCollectionRef, {});
+  };
+
 
   const onSubmit = () => {
     if (age < 18) {

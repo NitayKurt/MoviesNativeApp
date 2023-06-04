@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import Register from './Register';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import {auth} from '../firebase-config';
+import Home from './Home';
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
