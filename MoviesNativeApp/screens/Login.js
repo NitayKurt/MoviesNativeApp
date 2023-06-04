@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View,Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Register from './Register';
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -46,6 +46,7 @@ export default function Login({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Image source={require('../assets/movieIcon.png')} style={{width:100,height:100}}/>
       <Text style={{color:'white', fontSize: 30, fontWeight: 'bold', marginBottom: 20,}}>Welcome to Movie App</Text>
       <View style={styles.innerContainer}>
         <Text style={styles.title}>Login</Text>
