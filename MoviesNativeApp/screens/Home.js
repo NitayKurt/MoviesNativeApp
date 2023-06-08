@@ -26,7 +26,7 @@ export default function Home() {
 
   const getMoviesFromApi = async () => {
     try {
-      let response = await fetch(`http://www.omdbapi.com/?s=${searchItem}&apikey=4a3b711b`);
+      let response = await fetch(`http://www.omdbapi.com/?s=${searchItem.toLocaleLowerCase()}&apikey=4a3b711b`);
       let json = await response.json();
       setData(json.Search);
       console.log(data)
@@ -41,13 +41,14 @@ export default function Home() {
       console.log('User not logged in');
       return;
     }
-
+  
     try {
+      console.log(`first`);
       const favoritesRef = collection(database, 'favorites');
       const favoriteDoc = doc(favoritesRef, user.uid);
-
+  
       await addDoc(favoriteDoc, movie);
-      console.log('Added to favorites');
+      alert(`${movie.Title} added to favorites`);
     } catch (error) {
       console.error(error);
     }
@@ -66,9 +67,13 @@ export default function Home() {
           <Text style={styles.searchButtonText}>Search</Text>
         </TouchableOpacity>
       </View>
+    <ScrollView vertical={true}>
 
+      {/* // Movies */}
+      <View>
+      <Text style={styles.header}>Movies</Text>
       <ScrollView horizontal={true}>
-        {data.map((movie, index) => (
+        {data.map((movie, index) => (movie.Type === 'movie') && (
           <View style={styles.cardContainer} key={index}>
             <Card>
               <Card.Title title={movie.Title} subtitle={movie.Year} left={LeftContent} />
@@ -92,6 +97,39 @@ export default function Home() {
           </View>
         ))}
       </ScrollView>
+      </View> 
+
+     {/* //series */}
+     <View>
+      <Text style={styles.header}>Series</Text>
+      <ScrollView horizontal={true}>
+        {data.map((series, index) => (series.Type === 'series') && (
+          <View style={styles.cardContainer} key={index}>
+            <Card>
+              <Card.Title title={series.Title} subtitle={series.Year} left={LeftContent} />
+              <Card.Content>
+                <ScrollView horizontal={false}>
+                  <Text variant="bodyMedium">Type: {series.Type}</Text>
+                  <Text variant="bodyMedium">Description: {series.Plot}</Text>
+                  <Text variant="bodyMedium">Rate: {series.Rate}</Text>
+                </ScrollView>
+              </Card.Content>
+              <Card.Cover source={{ uri: series.Poster }}></Card.Cover>
+              <Card.Actions>
+                <Button style={styles.webButton} onPress={() => console.log('Move to website')}>
+                  Move to website
+                </Button>
+                <Button style={styles.favButton} onPress={() => addToFav(series)}>
+                  Add To Favorites
+                </Button>
+              </Card.Actions>
+            </Card>
+          </View>
+        ))}
+      </ScrollView>
+      </View>
+
+    </ScrollView>
       <View>
         <Button onPress={() => signOut(auth)} style={styles.signOut}>
          <Text style={{color:"white", fontSize:15}}>Sign out</Text>
@@ -155,4 +193,12 @@ const styles = StyleSheet.create({
   cardContainer: {
     marginLeft: 10,
   },
+  header:{
+    color:"white",
+     fontSize:20,
+    fontWeight:"bold",
+    textAlign:"center",
+
+  },
+
 });
