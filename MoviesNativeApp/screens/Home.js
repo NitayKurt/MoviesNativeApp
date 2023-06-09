@@ -6,8 +6,8 @@ import { auth, database } from '../firebase-config';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { collection, addDoc, doc } from 'firebase/firestore';
 import axios from 'axios';
-import {API_KEY_MOVIE_TMDB,TOKEN_MOVIE_TMDB } from '@env';
-import { Link } from '@react-navigation/native';
+import {API_KEY_MOVIE_TMDB } from '@env';
+
 
 const LeftContent = props => <Avatar.Icon {...props} icon="movie" />;
 
