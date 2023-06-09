@@ -1,5 +1,6 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from 'react-native'
 import React from 'react'
+import Entypo from 'react-native-vector-icons/Entypo'
 
 
 
@@ -14,19 +15,58 @@ const Eviatar_link = 'https://github.com/EviatarZilberman';
 
 
   return (
-    <View>
-      <Text>About Our Application</Text>
-      <Text>The application was created by Nitay Kurt and Eviatar Zilberman as a graduating project for 'React-Native' courseint practical software engeneering atudies in Ariel University, in 2023</Text>
+    <SafeAreaView style={styles.main}>
+      <Text style={styles.text}>The application was created by Nitay Kurt and Eviatar Zilberman as a graduating project for
+       'React-Native' course as part of practical software engeneering atudies in Ariel University, in 2023. We have started this project out of
+        a vision, but also for the grade and other inspiration stuff...</Text>
 
-      <TouchableOpacity style={styles.button} onPress={(Nitay_link) => handleNavigation(Nitay_link)}>
-          <Text style={styles.buttonText}>Nitay Kurt Github</Text>
+      <TouchableOpacity style={styles.button} onPress={() => handleNavigation(Nitay_link)}>
+          <Text style={styles.textbutton}>
+            <Entypo name='linkedin-with-circle'
+            style= {{color: 'white', fontSize: 30}} />
+            Nitay Kurt Github</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button1} onPress={(Eviatar_link) => handleNavigation(Eviatar_link)}>
-          <Text style={styles.buttonText}>Eviatar Zilberman Github</Text>
+        <TouchableOpacity style={styles.button} onPress={() => handleNavigation(Eviatar_link)}>
+          <Text style={styles.textbutton}>
+          <Entypo name='linkedin-with-circle'
+            style= {{color: 'white', fontSize: 30}} />
+            Eviatar Zilberman Github</Text>
         </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  button: {
+    marginTop: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'black',
+  },
+  textbutton: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+    alignContent: 'center',
+  },
+  main:{
+    backgroundColor:"#005f73",
+    flex:1,
+  },
+  text: {
+    fontSize: 20,
+    lineHeight: 21,
+    //fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+    alignContent: 'center',
+    marginBottom: 30,
+  },
+})
