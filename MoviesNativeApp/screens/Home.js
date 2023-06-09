@@ -110,31 +110,27 @@ export default function Home() {
         {data.map((movie, index) => (movie.media_type  === 'movie') && (
           <View  key={index}>
               <Card style={styles.cardContainer}>
-  <Card.Title title={movie.title || movie.name} subtitle={movie.release_date || movie.first_air_date} left={LeftContent} />
-  <Card.Content>
-    <View style={styles.textContainer}>
-      <Text style={styles.infoText}>
-        <Text style={styles.boldText}>Type:</Text> {movie.media_type}
-      </Text>
-      <Text style={styles.descriptionText} numberOfLines={3}>
-      <Text style={{fontWeight:"bold"}}>Description:</Text>{movie.overview}
-      </Text>
-      <Text style={styles.infoText}>
-        <Text style={styles.boldText}>Rating:</Text> {movie.vote_average}
-      </Text>
-    </View>
-    <Image source={{ uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}` }} style={styles.image} />
-  </Card.Content>
-  <Card.Actions>
-    <Button style={styles.webButton} onPress={() => console.log('Move to website')}>
-      Move to website
-    </Button>
-    <Button style={styles.favButton} onPress={() => addToFav(movie)}>
-      Add To Favorites
-    </Button>
-  </Card.Actions>
-</Card>
+                    <Card.Title title={movie.title || movie.name} subtitle={movie.release_date || movie.first_air_date} left={LeftContent} />
+                <Card.Content>
+                  <View style={styles.textContainer}>
+                    <Text style={styles.infoText}>
+                    <Text style={styles.boldText}>Type:</Text> {movie.media_type}
+                    </Text>
+                    <Text style={styles.descriptionText} numberOfLines={3}>
+                    <Text style={{fontWeight:"bold"}}>Description:</Text>{movie.overview}
+                    </Text>
+                    <Text style={styles.infoText}>
+                    <Text style={styles.boldText}>Rating:</Text> {movie.vote_average}✨
+                    </Text>
+                  </View>
+                  <Image source={{ uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}` }} style={styles.image} />
+                </Card.Content>
+                  <Card.Actions>
+                    <Button style={styles.webButton} onPress={() => console.log('Move to website')}>Move to website</Button>
 
+                    <Button style={styles.favButton} onPress={() => addToFav(movie)}>Add To Favorites</Button>
+                  </Card.Actions>
+              </Card>
           </View>
         ))}
       </ScrollView>
@@ -144,31 +140,34 @@ export default function Home() {
      <View>
       <Text style={styles.header}>Series</Text>
       <ScrollView horizontal={true}>
-        {data.map((series, index) => (series.media_type === 'tv') && (
+        {data.map((series, index) => (series.media_type  === 'tv') && (
           <View  key={index}>
-            <Card >
-              <Card.Title title={series.title || series.name} subtitle={series.release_date || series.first_air_date} left={LeftContent} />
-              <Card.Content style={styles.cardContainer}>
-                <ScrollView horizontal={false}>
-                  <Text variant="bodyMedium"><Text style={{fontWeight:"bold"}}>Type:</Text>{series.media_type}</Text>
-                  <Text variant="bodyMedium" numberOfLines={3} ><Text style={{fontWeight:"bold"}}>Description:</Text> {series.overview}</Text>
-                  <Text variant="bodyMedium"><Text style={{fontWeight:"bold"}}>Rate:</Text> {series.vote_average}</Text>
-                  <Image source={{uri: `https://image.tmdb.org/t/p/w500${series.poster_path}`}} style={{width: 300, height: 200}} />
-                </ScrollView>
-              </Card.Content>
-              <Card.Actions>
-                <Button style={styles.webButton} onPress={() => console.log('Move to website')}>
-                  Move to website
-                </Button>
-                <Button style={styles.favButton} onPress={() => addToFav(series)}>
-                  Add To Favorites
-                </Button>
-              </Card.Actions>
-            </Card>
+              <Card style={styles.cardContainer}>
+                    <Card.Title title={series.title || series.name} subtitle={series.release_date || series.first_air_date} left={LeftContent} />
+                <Card.Content>
+                  <View style={styles.textContainer}>
+                    <Text style={styles.infoText}>
+                    <Text style={styles.boldText}>Type:</Text> {series.media_type}
+                    </Text>
+                    <Text style={styles.descriptionText} numberOfLines={3}>
+                    <Text style={{fontWeight:"bold"}}>Description:</Text>{series.overview}
+                    </Text>
+                    <Text style={styles.infoText}>
+                    <Text style={styles.boldText}>Rating:</Text> {series.vote_average}✨
+                    </Text>
+                  </View>
+                  <Image source={{ uri: `https://image.tmdb.org/t/p/w500${series.poster_path}` }} style={styles.image} />
+                </Card.Content>
+                  <Card.Actions>
+                    <Button style={styles.webButton} onPress={() => console.log('Move to website')}>Move to website</Button>
+
+                    <Button style={styles.favButton} onPress={() => addToFav(series)}>Add To Favorites</Button>
+                  </Card.Actions>
+              </Card>
           </View>
         ))}
       </ScrollView>
-      </View>
+      </View> 
 
     </ScrollView>
       <View>
@@ -245,6 +244,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginHorizontal: 10,
     marginBottom: 20,
+    width: 450,
   },
   textContainer: {
     marginBottom: 10,
