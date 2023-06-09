@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, Image,Linking} from 'react-native';
 import { Avatar, Button, Card } from 'react-native-paper';
 import { useState } from 'react';
 import { auth, database } from '../firebase-config';
@@ -7,6 +7,7 @@ import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { collection, addDoc, doc } from 'firebase/firestore';
 import axios from 'axios';
 import {API_KEY_MOVIE_TMDB,TOKEN_MOVIE_TMDB } from '@env';
+import { Link } from '@react-navigation/native';
 
 const LeftContent = props => <Avatar.Icon {...props} icon="movie" />;
 
@@ -26,9 +27,9 @@ export default function Home() {
     return unsubscribe;
   }, []);
 
-  
-  function getMoviesFromApi(searchItem) {
-    const url = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY_MOVIE_TMDB}&query=${searchItem}`;
+  const getMoviesFromApi = (searchItem) => { 
+    console.log(`searchItem is ${searchItem.toString()}`)
+    const url = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY_MOVIE_TMDB}&query=${searchItem.toString()}`;
   
     axios.get(url)
       .then(response => {
@@ -45,6 +46,7 @@ export default function Home() {
             console.log('Overview:', result.overview);
             console.log(`https://image.tmdb.org/t/p/w500${result.poster_path}`);
             console.log('Type:', result.media_type);
+            console.log('URL:', `https://www.themoviedb.org/${result.media_type}/${result.id}`); 
             console.log('----------------------');
           });
         } else {
@@ -57,19 +59,7 @@ export default function Home() {
   }
   
   
-
-  // const getMoviesFromApi = async () => {
-  //   try {
-  //     let response = await fetch(`http://www.omdbapi.com/?s=${searchItem.toLocaleLowerCase()}&apikey=4a3b711b`);
-  //     let json = await response.json();
-  //     setData(json.Search);
-  //     console.log(data)
-  //     setSearchItem('');
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
+  
   const addToFav = async (movie) => {
     if (!user) {
       console.log('User not logged in');
@@ -87,25 +77,26 @@ export default function Home() {
       console.error(error);
     }
   };
-
+  
   return (
     <SafeAreaView style={styles.main}>
       <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.inputField}
-          placeholder="Movie Name"
-          value={searchItem}
-          onChangeText={text => setSearchItem(text)}
+      <TextInput
+        style={styles.inputField}
+        placeholder="Movie Name"
+        value={searchItem}
+        onChangeText={text => setSearchItem(text)}
         />
-        <TouchableOpacity style={styles.searchButton} onPress={getMoviesFromApi}>
-          <Text style={styles.searchButtonText}>Search</Text>
+        <TouchableOpacity style={styles.searchButton} onPress={() => getMoviesFromApi(searchItem)}>
+        <Text style={styles.searchButtonText}>Search🔎️</Text>
         </TouchableOpacity>
+
       </View>
     <ScrollView vertical={true}>
 
       {/* // Movies */}
       <View>
-      <Text style={styles.header}>Movies</Text>
+      <Text style={styles.header}>Movies🎬</Text>
       <ScrollView horizontal={true}>
         {data.map((movie, index) => (movie.media_type  === 'movie') && (
           <View  key={index}>
@@ -116,17 +107,17 @@ export default function Home() {
                     <Text style={styles.infoText}>
                     <Text style={styles.boldText}>Type:</Text> {movie.media_type}
                     </Text>
-                    <Text style={styles.descriptionText} numberOfLines={3}>
-                    <Text style={{fontWeight:"bold"}}>Description:</Text>{movie.overview}
-                    </Text>
                     <Text style={styles.infoText}>
                     <Text style={styles.boldText}>Rating:</Text> {movie.vote_average}✨
+                    </Text>
+                    <Text style={styles.descriptionText} numberOfLines={3}>
+                    <Text style={{fontWeight:"bold"}}>Description:</Text>{movie.overview}
                     </Text>
                   </View>
                   <Image source={{ uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}` }} style={styles.image} />
                 </Card.Content>
                   <Card.Actions>
-                    <Button style={styles.webButton} onPress={() => console.log('Move to website')}>Move to website</Button>
+                  <Button style={styles.webButton} onPress={() => Linking.openURL(`https://www.themoviedb.org/${movie.media_type}/${movie.id}`)}>Move to website</Button>
 
                     <Button style={styles.favButton} onPress={() => addToFav(movie)}>Add To Favorites</Button>
                   </Card.Actions>
@@ -138,7 +129,7 @@ export default function Home() {
 
      {/* //series */}
      <View>
-      <Text style={styles.header}>Series</Text>
+      <Text style={styles.header}>Series📹</Text>
       <ScrollView horizontal={true}>
         {data.map((series, index) => (series.media_type  === 'tv') && (
           <View  key={index}>
@@ -149,17 +140,17 @@ export default function Home() {
                     <Text style={styles.infoText}>
                     <Text style={styles.boldText}>Type:</Text> {series.media_type}
                     </Text>
-                    <Text style={styles.descriptionText} numberOfLines={3}>
-                    <Text style={{fontWeight:"bold"}}>Description:</Text>{series.overview}
-                    </Text>
                     <Text style={styles.infoText}>
                     <Text style={styles.boldText}>Rating:</Text> {series.vote_average}✨
+                    </Text>
+                    <Text style={styles.descriptionText} numberOfLines={3}>
+                    <Text style={{fontWeight:"bold"}}>Description:</Text>{series.overview}
                     </Text>
                   </View>
                   <Image source={{ uri: `https://image.tmdb.org/t/p/w500${series.poster_path}` }} style={styles.image} />
                 </Card.Content>
                   <Card.Actions>
-                    <Button style={styles.webButton} onPress={() => console.log('Move to website')}>Move to website</Button>
+                  <Button style={styles.webButton} onPress={() => Linking.openURL(`https://www.themoviedb.org/${series.media_type}/${series.id}`)}>Move to website</Button>
 
                     <Button style={styles.favButton} onPress={() => addToFav(series)}>Add To Favorites</Button>
                   </Card.Actions>
@@ -230,15 +221,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
   },
-  cardContainer: {
-    marginLeft: 10,
-  },
+  
   header:{
     color:"white",
-     fontSize:20,
+    fontSize:20,
     fontWeight:"bold",
     textAlign:"center",
-
+    
   },
   cardContainer: {
     borderRadius: 10,
@@ -268,6 +257,8 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
   webButton: {
     backgroundColor: 'gold',
