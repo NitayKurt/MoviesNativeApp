@@ -28,7 +28,6 @@ export default function Home() {
   }, []);
 
   const getMoviesFromApi = (searchItem) => { 
-    console.log(`searchItem is ${searchItem.toString()}`)
     const url = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY_MOVIE_TMDB}&query=${searchItem.toString()}`;
   
     axios.get(url)
@@ -90,10 +89,9 @@ export default function Home() {
         <TouchableOpacity style={styles.searchButton} onPress={() => getMoviesFromApi(searchItem)}>
         <Text style={styles.searchButtonText}>Search🔎️</Text>
         </TouchableOpacity>
-
       </View>
-    <ScrollView vertical={true}>
 
+    <ScrollView vertical={true}>
       {/* // Movies */}
       <View>
       <Text style={styles.header}>Movies🎬</Text>
@@ -102,25 +100,24 @@ export default function Home() {
           <View  key={index}>
               <Card style={styles.cardContainer}>
                     <Card.Title title={movie.title || movie.name} subtitle={movie.release_date || movie.first_air_date} left={LeftContent} />
-                <Card.Content>
-                  <View style={styles.textContainer}>
-                    <Text style={styles.infoText}>
-                    <Text style={styles.boldText}>Type:</Text> {movie.media_type}
-                    </Text>
-                    <Text style={styles.infoText}>
-                    <Text style={styles.boldText}>Rating:</Text> {movie.vote_average}✨
-                    </Text>
-                    <Text style={styles.descriptionText} numberOfLines={3}>
-                    <Text style={{fontWeight:"bold"}}>Description:</Text>{movie.overview}
-                    </Text>
-                  </View>
-                  <Image source={{ uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}` }} style={styles.image} />
-                </Card.Content>
-                  <Card.Actions>
-                  <Button style={styles.webButton} onPress={() => Linking.openURL(`https://www.themoviedb.org/${movie.media_type}/${movie.id}`)}>Move to website</Button>
+                      <Card.Content>
+                        <View style={styles.textContainer}>
+                          <Text style={styles.infoText}>
+                          <Text style={styles.boldText}>Type:</Text> {movie.media_type}</Text>
 
-                    <Button style={styles.favButton} onPress={() => addToFav(movie)}>Add To Favorites</Button>
-                  </Card.Actions>
+                          <Text style={styles.infoText}>
+                          <Text style={styles.boldText}>Rating:</Text> {movie.vote_average}✨</Text>
+
+                          <Text style={styles.descriptionText} numberOfLines={3}>
+                          <Text style={{fontWeight:"bold"}}>Description:</Text>{movie.overview}</Text>
+                        </View>
+                        <Image source={{ uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}` }} style={styles.image} />
+                      </Card.Content>
+                        <Card.Actions>
+                          <Button style={styles.webButton} onPress={() => Linking.openURL(`https://www.themoviedb.org/${movie.media_type}/${movie.id}`)}>Move to website</Button>
+
+                          <Button style={styles.favButton} onPress={() => addToFav(movie)}>Add To Favorites</Button>
+                        </Card.Actions>
               </Card>
           </View>
         ))}
@@ -135,25 +132,24 @@ export default function Home() {
           <View  key={index}>
               <Card style={styles.cardContainer}>
                     <Card.Title title={series.title || series.name} subtitle={series.release_date || series.first_air_date} left={LeftContent} />
-                <Card.Content>
-                  <View style={styles.textContainer}>
-                    <Text style={styles.infoText}>
-                    <Text style={styles.boldText}>Type:</Text> {series.media_type}
-                    </Text>
-                    <Text style={styles.infoText}>
-                    <Text style={styles.boldText}>Rating:</Text> {series.vote_average}✨
-                    </Text>
-                    <Text style={styles.descriptionText} numberOfLines={3}>
-                    <Text style={{fontWeight:"bold"}}>Description:</Text>{series.overview}
-                    </Text>
-                  </View>
-                  <Image source={{ uri: `https://image.tmdb.org/t/p/w500${series.poster_path}` }} style={styles.image} />
-                </Card.Content>
-                  <Card.Actions>
-                  <Button style={styles.webButton} onPress={() => Linking.openURL(`https://www.themoviedb.org/${series.media_type}/${series.id}`)}>Move to website</Button>
+                      <Card.Content>
+                        <View style={styles.textContainer}>
+                          <Text style={styles.infoText}>
+                          <Text style={styles.boldText}>Type:</Text> {series.media_type}</Text>
 
-                    <Button style={styles.favButton} onPress={() => addToFav(series)}>Add To Favorites</Button>
-                  </Card.Actions>
+                          <Text style={styles.infoText}>
+                          <Text style={styles.boldText}>Rating:</Text> {series.vote_average}✨</Text>
+
+                          <Text style={styles.descriptionText} numberOfLines={3}>
+                          <Text style={{fontWeight:"bold"}}>Description:</Text>{series.overview}</Text>
+                        </View>
+                        <Image source={{ uri: `https://image.tmdb.org/t/p/w500${series.poster_path}` }} style={styles.image} />
+                      </Card.Content>
+                      <Card.Actions>
+                      <Button style={styles.webButton} onPress={() => Linking.openURL(`https://www.themoviedb.org/${series.media_type}/${series.id}`)}>Move to website</Button>
+
+                      <Button style={styles.favButton} onPress={() => addToFav(series)}>Add To Favorites</Button>
+                      </Card.Actions>
               </Card>
           </View>
         ))}
