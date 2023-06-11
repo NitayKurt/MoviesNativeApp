@@ -64,11 +64,10 @@ export default function Favourites() {
     }
     const favoriteMovies = await getFavoriteMoviesFromCollection(user);
     setFavorites(favoriteMovies);
-    // You can further process or display the favorite movies as needed
   };
   
 
-
+  //if user is not logged in, return empty array && if user is logged in, return favorite movies
   useEffect(() => {
     if (user) {
       displayFavoriteMovies();
@@ -82,18 +81,16 @@ export default function Favourites() {
     }
 
     const userId = auth.currentUser.uid;
-    const favoriteRef = doc(database, `USERS-MOVIE-APP/${userId}/favorites/${favoriteId}`);
+    const favoriteRef = doc(database, `USERS-MOVIE-APP/${userId}/favorites/${favoriteId}/movies/${favoriteId}`);
     await deleteDoc(favoriteRef);
+    console.log(`deleted succusfully`)
 
     const updatedFavorites = favorites.filter((favorite) => favorite.id !== favoriteId);
     setFavorites(updatedFavorites);
   };
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => removeFromFavorites(item.id)}>
-      <Text>{item.title}</Text>
-    </TouchableOpacity>
-  );
+  
+
 
   return (
     <View style={styles.container}>
@@ -120,9 +117,7 @@ export default function Favourites() {
                         <Image source={{ uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}` }} style={styles.image} />
                       </Card.Content>
                         <Card.Actions>
-                          <Button style={styles.webButton} onPress={() => Linking.openURL(`https://www.themoviedb.org/${movie.media_type}/${movie.id}`)}>Move to website</Button>
-
-                          <Button style={styles.favButton} onPress={() => addToFav(movie)}>Add To Favorites</Button>
+                          <Button style={styles.removeButton} onPress={() => removeFromFavorites(movie)}>Remove from Favorites</Button>
                         </Card.Actions>
               </Card>
           </View>
@@ -163,8 +158,8 @@ const styles = StyleSheet.create({
     color: 'white', 
     fontWeight: 'bold',
   },
-  favButton1: {
-    backgroundColor: 'green',
+  removeButton: {
+    backgroundColor: 'red',
     color: 'white',
     borderRadius: 10,
     marginLeft: 10,

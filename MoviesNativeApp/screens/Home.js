@@ -87,7 +87,7 @@ export default function Home() {
         await addDoc(collection(userFavoritesDoc.ref, 'movies'), movie);
       }
   
-      alert(`${movie.Title} added to favorites`);
+      alert(`${movie.title} added to favorites`);
     } catch (error) {
       console.error(error);
     }
