@@ -73,7 +73,7 @@ export default function Favourites() {
     if (user) {
       displayFavoriteMovies();
     }
-  }, [user]);
+  }, [user,favorites]);
 
   const removeFromFavorites = async (favoriteId) => {
     if (!auth.currentUser) {
