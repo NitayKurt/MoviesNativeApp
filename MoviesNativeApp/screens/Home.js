@@ -4,7 +4,7 @@ import { Avatar, Button, Card } from 'react-native-paper';
 import { useState } from 'react';
 import { auth, database } from '../firebase-config';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
-import { collection, addDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, doc,getDocs, query, where } from 'firebase/firestore';
 import axios from 'axios';
 import {API_KEY_MOVIE_TMDB } from '@env';
 
@@ -58,7 +58,7 @@ export default function Home() {
   }
   
   
-  
+  // Add to favorites
   const addToFav = async (movie) => {
     if (!user) {
       console.log('User not logged in');
@@ -66,16 +66,34 @@ export default function Home() {
     }
   
     try {
-      console.log(`first`);
-      const favoritesRef = collection(database, 'favorites');
-      const favoriteDoc = doc(favoritesRef, user.uid);
+      const userFavoritesRef = collection(database, 'favorites');
+      const userFavoritesQuery = query(//query is used to get the data from the database
+        userFavoritesRef,
+        where('email', '==', user.email)
+      );
   
-      await addDoc(favoriteDoc, movie);
+      const userFavoritesSnapshot = await getDocs(userFavoritesQuery);
+  
+      if (userFavoritesSnapshot.empty) {
+        // No existing favorites collection for the user, create a new one
+        const newUserFavoritesRef = await addDoc(userFavoritesRef, {
+          email: user.email,
+        });
+  
+        await addDoc(collection(newUserFavoritesRef, 'movies'), movie);
+      } else {
+        // User already has a favorites collection, add movie to it
+        const userFavoritesDoc = userFavoritesSnapshot.docs[0];
+        await addDoc(collection(userFavoritesDoc.ref, 'movies'), movie);
+      }
+  
       alert(`${movie.Title} added to favorites`);
     } catch (error) {
       console.error(error);
     }
   };
+  
+  
   
   return (
     <SafeAreaView style={styles.main}>
@@ -193,7 +211,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   searchButtonText: {
-    color: 'white',
+    color: 'white', 
     fontWeight: 'bold',
   },
   favButton1: {
