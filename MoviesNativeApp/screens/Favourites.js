@@ -9,11 +9,9 @@ const LeftContent = props => <Avatar.Icon {...props} icon="movie" />;
 export default function Favourites() {
   const [favorites, setFavorites] = useState([]);
   const [user, setUser] = useState(null);
- 
-    // Add this line to initialize the Firebase Auth instance
   const firebaseAuth = getAuth();
 
-  // Add an onAuthStateChanged event listener to get the logged-in user
+  // this event listener to get the logged-in user status
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, currentUser => {
       setUser(currentUser);

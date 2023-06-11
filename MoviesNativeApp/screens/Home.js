@@ -15,11 +15,9 @@ export default function Home() {
   const [searchItem, setSearchItem] = useState('');
   const [data, setData] = useState([]);
   const [user, setUser] = useState(null);
-
-  // Add this line to initialize the Firebase Auth instance
   const firebaseAuth = getAuth();
 
-  // Add an onAuthStateChanged event listener to get the logged-in user
+  // this event listener to get the logged-in user status
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, currentUser => {
       setUser(currentUser);
