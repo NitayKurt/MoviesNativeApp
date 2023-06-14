@@ -196,6 +196,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 10,
     marginBottom: 10,
+    top: 10,
   },
   inputField: {
     flex: 1,
