@@ -187,7 +187,7 @@ export default function Home() {
 
 const styles = StyleSheet.create({
   main: {
-    backgroundColor: '#005f73',
+    backgroundColor: '#607D8B',
     flex: 1,
   },
   searchContainer: {

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View, SafeAreaView, Image,Linking } from 'react-native'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Entypo from 'react-native-vector-icons/Entypo'
 import { auth } from '../firebase-config';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
@@ -19,7 +19,7 @@ export default function About() {
 
   return (
     <SafeAreaView style={styles.main}>
-            <Image source={require('../assets/movieIcon.png')} style={{width:100,height:100, marginBottom: 10, marginTop: 10}}/>
+            <Image source={require('../assets/aboutIcon.png')} style={{width:100,height:100, marginBottom: 10, marginTop: 10}}/>
       <Text style={styles.text}>The application was created by Nitay Kurt and Eviatar Zilberman as a graduating project for
        'React-Native' course as part of practical software engeneering atudies in Ariel University, in 2023. We have started this project out of
         a vision, but also for the grade and other inspiration stuff...</Text>
@@ -30,28 +30,28 @@ export default function About() {
               
           <Text style={styles.textbutton}>
             <Entypo name='github'
-            style= {{color: 'white', fontSize: 30}} />
+            style= {{color: 'white', fontSize: 30,letterSpacing:10}} />
             Nitay Kurt Github</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} onPress={() => Linking.openURL('https://www.linkedin.com/in/nitay-kurt/')}>
           <Text style={styles.textbutton}>
             <Entypo name='linkedin-with-circle'
-            style= {{color: 'white', fontSize: 30}} />
+            style= {{color: 'white', fontSize: 30, letterSpacing:10}} />
             Nitay Kurt Linkedin</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} onPress={() => Linking.openURL('https://github.com/EviatarZilberman')}>
           <Text style={styles.textbutton}>
           <Entypo name='github'
-            style= {{color: 'white', fontSize: 30}} />
+            style= {{color: 'white', fontSize: 30, letterSpacing:10}} />
             Eviatar Zilberman Github</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} onPress={() => Linking.openURL('https://www.linkedin.com/in/eviatar-zilberman-a849891b2/')}>
           <Text style={styles.textbutton}>
             <Entypo name='linkedin-with-circle'
-            style= {{color: 'white', fontSize: 30}} />
+            style= {{color: 'white', fontSize: 30, letterSpacing:10}} />
             Eviatar Zilberman Linkedin</Text>
         </TouchableOpacity>
         </View>
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   main:{
-    backgroundColor:"#005f73",
+    backgroundColor:"#607D8B",
     flex:1,
     alignItems: 'center',
   },
