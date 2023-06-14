@@ -152,39 +152,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#005f73',
     flex: 1,
   },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
-    marginBottom: 10,
-  },
-  inputField: {
-    flex: 1,
-    height: 40,
-    backgroundColor: 'white',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-  },
-  searchButton: {
-    marginLeft: 10,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    backgroundColor: 'gold',
-    borderRadius: 5,
-  },
-  searchButtonText: {
-    color: 'white', 
-    fontWeight: 'bold',
-  },
   removeButton: {
     backgroundColor: 'red',
-    color: 'white',
-    borderRadius: 10,
-    marginLeft: 10,
-  },
-  webButton: {
-    backgroundColor: 'gold',
     color: 'white',
     borderRadius: 10,
     marginLeft: 10,
@@ -236,17 +205,5 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-  },
-  webButton: {
-    backgroundColor: 'gold',
-    color: 'white',
-    borderRadius: 10,
-    marginLeft: 10,
-  },
-  favButton: {
-    backgroundColor: 'green',
-    color: 'white',
-    borderRadius: 10,
-    marginLeft: 10,
   },
 });

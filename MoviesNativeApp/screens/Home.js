@@ -215,19 +215,6 @@ const styles = StyleSheet.create({
     color: 'white', 
     fontWeight: 'bold',
   },
-  favButton1: {
-    backgroundColor: 'black',
-    borderColor: 'white',
-    color: 'white',
-    borderRadius: 10,
-    marginLeft: 10,
-  },
-  webButton: {
-    backgroundColor: 'gold',
-    color: 'white',
-    borderRadius: 10,
-    marginLeft: 10,
-  },
   signOut: {
     backgroundColor: 'red',
     color: 'white',
