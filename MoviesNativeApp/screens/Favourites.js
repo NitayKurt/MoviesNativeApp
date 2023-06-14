@@ -20,7 +20,7 @@ export default function Favourites() {
     return unsubscribe;
   }, []);
 
- 
+ //get the user's favorite movies from the database
   const getFavoriteMoviesFromCollection = async (user) => {
     
     if (!user) {
@@ -73,33 +73,34 @@ export default function Favourites() {
     }
   }, [user,favorites]);
 
-  const removeFromFavorites = async (movie) => {
+
+  const removeFromFavorites = async (movie) => { //remove from favorites
     if (!user) {
       console.log('User not logged in');
       return;
     }
 
     try {
-      const userFavoritesRef = collection(database, 'favorites');
-      const userFavoritesQuery = query( userFavoritesRef, where('email', '==', user.email));
-      const userFavoritesSnapshot = await getDocs(userFavoritesQuery);
+      const userFavoritesRef = collection(database, 'favorites');//get the favorites collection
+      const userFavoritesQuery = query( userFavoritesRef, where('email', '==', user.email));//get the user's favorites
+      const userFavoritesSnapshot = await getDocs(userFavoritesQuery);//get the user's favorites snapshot
       
       if (userFavoritesSnapshot.empty) {
         console.log('No favorites found for the user');
         return;
       }
 
-      const userFavoritesDoc = userFavoritesSnapshot.docs[0];
-      const moviesSnapshot = await getDocs(collection(userFavoritesDoc.ref, 'movies'));
-      const favoriteMovies = moviesSnapshot.docs.map((doc) => doc.data());
+      const userFavoritesDoc = userFavoritesSnapshot.docs[0];//get the user's favorites doc
+      const moviesSnapshot = await getDocs(collection(userFavoritesDoc.ref, 'movies'));//get the user's movies snapshot
+      const favoriteMovies = moviesSnapshot.docs.map((doc) => doc.data());//get the user's movies
       
-      const movieIndex = favoriteMovies.findIndex((m) => m.id === movie.id);
+      const movieIndex = favoriteMovies.findIndex((m) => m.id === movie.id);//get the index of the movie to be removed
       if (movieIndex === -1) {
         console.log('Movie not found in favorites');
         return;
       }
 
-      await deleteDoc(doc(userFavoritesDoc.ref, 'movies', moviesSnapshot.docs[movieIndex].id));
+      await deleteDoc(doc(userFavoritesDoc.ref, 'movies', moviesSnapshot.docs[movieIndex].id));//delete the movie from the user's favorites
       console.log('Movie removed from favorites');
     } catch (error) { 
       console.error(error);
