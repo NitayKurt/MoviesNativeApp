@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, Image,Linking} from 'react-native';
-import { Avatar, Button, Card } from 'react-native-paper';
+import { Avatar, Button, Card} from 'react-native-paper';
 import { useState } from 'react';
 import { auth, database } from '../firebase-config';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
@@ -115,7 +115,7 @@ export default function Home() {
         {data.map((movie, index) => (movie.media_type  === 'movie') && (
           <View  key={index}>
               <Card style={styles.cardContainer}>
-                    <Card.Title title={movie.title || movie.name} subtitle={movie.release_date || movie.first_air_date} left={LeftContent} />
+                    <Card.Title titleStyle={styles.cardTitle} subtitleStyle={styles.cardTitle} theme={{ colors: { text: 'white'} }} title={movie.title || movie.name} subtitle={movie.release_date || movie.first_air_date} left={LeftContent} />
                       <Card.Content>
                         <View style={styles.textContainer}>
                           <Text style={styles.infoText}>
@@ -129,10 +129,10 @@ export default function Home() {
                         </View>
                         <Image source={{ uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}` }} style={styles.image} />
                       </Card.Content>
-                        <Card.Actions>
-                          <Button style={styles.webButton} onPress={() => Linking.openURL(`https://www.themoviedb.org/${movie.media_type}/${movie.id}`)}>Move to website</Button>
+                        <Card.Actions style={styles.cardActions}>
+                          <Button style={styles.webButton} onPress={() => Linking.openURL(`https://www.themoviedb.org/${movie.media_type}/${movie.id}`)}>Move to website🌐</Button>
 
-                          <Button style={styles.favButton} onPress={() => addToFav(movie)}>Add To Favorites</Button>
+                          <Button style={styles.favButton} onPress={() => addToFav(movie)}>Add To Favorites⭐</Button>
                         </Card.Actions>
               </Card>
           </View>
@@ -147,8 +147,10 @@ export default function Home() {
         {data.map((series, index) => (series.media_type  === 'tv') && (
           <View  key={index}>
               <Card style={styles.cardContainer}>
-                    <Card.Title title={series.title || series.name} subtitle={series.release_date || series.first_air_date} left={LeftContent} />
                       <Card.Content>
+                      <View style={styles.titleContainer}>
+                        <Card.Title titleStyle={styles.cardTitle} subtitleStyle={styles.cardTitle} theme={{ colors: { text: 'white'} }}  title={series.title || series.name}  subtitle={series.release_date || series.first_air_date} left={LeftContent} />
+                        </View>
                         <View style={styles.textContainer}>
                           <Text style={styles.infoText}>
                           <Text style={styles.boldText}>Type:</Text> {series.media_type}</Text>
@@ -161,10 +163,10 @@ export default function Home() {
                         </View>
                         <Image source={{ uri: `https://image.tmdb.org/t/p/w500${series.poster_path}` }} style={styles.image} />
                       </Card.Content>
-                      <Card.Actions>
-                      <Button style={styles.webButton} onPress={() => Linking.openURL(`https://www.themoviedb.org/${series.media_type}/${series.id}`)}>Move to website</Button>
+                      <Card.Actions style={styles.cardActions}>
+                      <Button style={styles.webButton} onPress={() => Linking.openURL(`https://www.themoviedb.org/${series.media_type}/${series.id}`)}>Move to website🌐</Button>
 
-                      <Button style={styles.favButton} onPress={() => addToFav(series)}>Add To Favorites</Button>
+                      <Button style={styles.favButton} onPress={() => addToFav(series)}>Add To Favorites⭐</Button>
                       </Card.Actions>
               </Card>
           </View>
@@ -179,6 +181,7 @@ export default function Home() {
         </Button>
       </View>
     </SafeAreaView>
+   
   );
 }
 
@@ -213,7 +216,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   favButton1: {
-    backgroundColor: 'green',
+    backgroundColor: 'black',
+    borderColor: 'white',
     color: 'white',
     borderRadius: 10,
     marginLeft: 10,
@@ -242,22 +246,44 @@ const styles = StyleSheet.create({
     
   },
   cardContainer: {
+    backgroundColor:'black',
+    color:'white',
     borderRadius: 10,
     marginHorizontal: 10,
     marginBottom: 20,
     width: 450,
   },
+  titleContainer: {
+    backgroundColor: 'black',
+    color: 'white',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  cardTitle:{
+    color: 'white', // Modified card title color
+    fontSize: 20,
+    backgroundColor: 'black',
+    alignContent: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
   textContainer: {
+    color:'white',
     marginBottom: 10,
   },
   boldText: {
     fontWeight: "bold",
   },
   infoText: {
+    color:'white',
     fontSize: 16,
     marginBottom: 5,
   },
   descriptionText: {
+    color:'white',
     fontSize: 14,
     marginBottom: 10,
     flexWrap: 'wrap',
@@ -273,15 +299,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   webButton: {
-    backgroundColor: 'gold',
+    backgroundColor: 'black',
+    borderColor: 'white',
+    borderWidth: 1,
     color: 'white',
     borderRadius: 10,
     marginLeft: 10,
   },
   favButton: {
-    backgroundColor: 'green',
+    backgroundColor: 'black',
+    borderColor: 'white',
+    borderWidth: 1,
     color: 'white',
     borderRadius: 10,
     marginLeft: 10,
+  },
+  cardActions: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 50,
   },
 });

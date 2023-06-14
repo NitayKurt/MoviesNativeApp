@@ -1,16 +1,17 @@
 import { SafeAreaView, ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, Image,Linking} from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, query, where, getDocs, deleteDoc, doc, getDoc } from 'firebase/firestore';
 import { auth, database } from '../firebase-config';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { Avatar, Button, Card } from 'react-native-paper';
 const LeftContent = props => <Avatar.Icon {...props} icon="movie" />;
 
 export default function Favourites() {
   const [favorites, setFavorites] = useState([]);
   const [user, setUser] = useState(null);
+  
   const firebaseAuth = getAuth();
-
+  
   // this event listener to get the logged-in user status
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, currentUser => {
@@ -35,7 +36,7 @@ export default function Favourites() {
       );
   
       const userFavoritesSnapshot = await getDocs(userFavoritesQuery);
-  
+
       if (userFavoritesSnapshot.empty) {
         console.log('No favorites found for the user');
         return [];
@@ -45,7 +46,7 @@ export default function Favourites() {
       const moviesSnapshot = await getDocs(
         collection(userFavoritesDoc.ref, 'movies')
       );
-  
+    
       const favoriteMovies = moviesSnapshot.docs.map((doc) => doc.data());
       return favoriteMovies;
     } catch (error) {
@@ -72,27 +73,42 @@ export default function Favourites() {
     }
   }, [user,favorites]);
 
-  const removeFromFavorites = async (favoriteId) => {
-    if (!auth.currentUser) {
+  const removeFromFavorites = async (movie) => {
+    if (!user) {
       console.log('User not logged in');
       return;
     }
 
-    const userId = auth.currentUser.uid;
-    const favoriteRef = doc(database, `USERS-MOVIE-APP/${userId}/favorites/${favoriteId}/movies/${favoriteId}`);
-    await deleteDoc(favoriteRef);
-    console.log(`deleted succusfully`)
+    try {
+      const userFavoritesRef = collection(database, 'favorites');
+      const userFavoritesQuery = query( userFavoritesRef, where('email', '==', user.email));
+      const userFavoritesSnapshot = await getDocs(userFavoritesQuery);
+      
+      if (userFavoritesSnapshot.empty) {
+        console.log('No favorites found for the user');
+        return;
+      }
 
-    const updatedFavorites = favorites.filter((favorite) => favorite.id !== favoriteId);
-    setFavorites(updatedFavorites);
+      const userFavoritesDoc = userFavoritesSnapshot.docs[0];
+      const moviesSnapshot = await getDocs(collection(userFavoritesDoc.ref, 'movies'));
+      const favoriteMovies = moviesSnapshot.docs.map((doc) => doc.data());
+      
+      const movieIndex = favoriteMovies.findIndex((m) => m.id === movie.id);
+      if (movieIndex === -1) {
+        console.log('Movie not found in favorites');
+        return;
+      }
+
+      await deleteDoc(doc(userFavoritesDoc.ref, 'movies', moviesSnapshot.docs[movieIndex].id));
+      console.log('Movie removed from favorites');
+    } catch (error) { 
+      console.error(error);
+    }
   };
 
-  
-
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Favorites</Text>
+    <View style={styles.main}>
+      <Text style={styles.header}>My Favorites⭐</Text>
       
       {/* // Movies */}
       <View>
@@ -121,6 +137,11 @@ export default function Favourites() {
           </View>
         ))}
       </ScrollView>
+      <View>
+        <Button onPress={() => signOut(auth)} style={styles.signOut}>
+         <Text style={{color:"white", fontSize:15}}>Sign out</Text>
+        </Button>
+      </View>
     </View>
     </View>
   );
