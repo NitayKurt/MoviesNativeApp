@@ -41,6 +41,7 @@ export default function App() {
       {user ? (//if user is logged in
         <Tab.Navigator 
           screenOptions={({ route }) => ({
+            headerShown: false,
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
               if (route.name === homeName) {
@@ -52,6 +53,8 @@ export default function App() {
               }
               return <Ionicons name={iconName} size={size} color={'white'} selectionColor={'white'} />;
             }
+            ,
+            tabBarActiveTintColor: 'white', // Set active tab text color to white
           })}
         >
       
