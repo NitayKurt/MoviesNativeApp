@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: 'black',
+    backgroundColor: '#00BCD4',
     width: 400,
   },
   textbutton: {
