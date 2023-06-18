@@ -95,6 +95,9 @@ export default function Home() {
   
   return (
     <SafeAreaView style={styles.main}>
+      <View>
+        <Text style={styles.startHeadr}>Movies & Series App</Text>
+      </View>
       <View style={styles.searchContainer}>
       <TextInput
         style={styles.inputField}
@@ -189,6 +192,14 @@ const styles = StyleSheet.create({
   main: {
     backgroundColor: '#607D8B',
     flex: 1,
+  },
+  startHeadr:{
+    color:"white",
+    fontSize:20,
+    fontWeight:"bold",
+    alignSelf:"center",
+    marginTop:10,
+    marginBottom:10,
   },
   searchContainer: {
     flexDirection: 'row',
