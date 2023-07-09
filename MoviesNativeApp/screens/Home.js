@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, Image,Linking} from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, Image,Linking, Alert} from 'react-native';
 import { Avatar, Button, Card} from 'react-native-paper';
 import { useState } from 'react';
 import { auth, database } from '../firebase-config';
@@ -47,10 +47,12 @@ export default function Home() {
             console.log('----------------------');
           });
         } else {
+          Alert.alert('Oops','No results found❗');
           console.log('No results found!');
         }
       })
       .catch(error => {
+        Alert.alert('Oops','No results found❗');
         console.log('Error:', error.message);
       });
   }
@@ -59,6 +61,7 @@ export default function Home() {
   // Add to favorites
   const addToFav = async (movie) => {
     if (!user) {
+      Alert.alert('Oops','You need to login first❗');
       console.log('User not logged in');
       return;
     }
@@ -87,6 +90,7 @@ export default function Home() {
   
       alert(`${movie.title} added to favorites`);
     } catch (error) {
+      Alert.alert('Oops','Something went wrong❗');
       console.error(error);
     }
   };

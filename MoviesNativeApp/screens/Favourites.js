@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, Image,Linking} from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, Image,Linking, Alert} from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { collection, query, where, getDocs, deleteDoc, doc, getDoc } from 'firebase/firestore';
 import { auth, database } from '../firebase-config';
@@ -39,6 +39,7 @@ export default function Favourites() {
 
       if (userFavoritesSnapshot.empty) {
         console.log('No favorites found for the user');
+        Alert.alert('Oops','No favorites found for the user❌');
         return [];
       }
   
@@ -50,6 +51,7 @@ export default function Favourites() {
       const favoriteMovies = moviesSnapshot.docs.map((doc) => doc.data());
       return favoriteMovies;
     } catch (error) {
+      Alert.alert('Oops','Something went wrong❌');
       console.error(error);
       return [];
     }
@@ -58,6 +60,7 @@ export default function Favourites() {
 
   const displayFavoriteMovies = async () => {
     if (!user) {
+      Alert.alert('Oops','User not logged in❌');
       console.log('User not logged in');
       return;
     }
@@ -87,6 +90,7 @@ export default function Favourites() {
       
       if (userFavoritesSnapshot.empty) {
         console.log('No favorites found for the user');
+        Alert.alert('Oops','No favorites found for the user❌');
         return;
       }
 
@@ -97,12 +101,15 @@ export default function Favourites() {
       const movieIndex = favoriteMovies.findIndex((m) => m.id === movie.id);//get the index of the movie to be removed
       if (movieIndex === -1) {
         console.log('Movie not found in favorites');
+        Alert.alert('Oops','Movie not found in favorites❗');
         return;
       }
 
       await deleteDoc(doc(userFavoritesDoc.ref, 'movies', moviesSnapshot.docs[movieIndex].id));//delete the movie from the user's favorites
       console.log('Movie removed from favorites');
+      Alert.alert('Success','Movie removed from favorites✅');
     } catch (error) { 
+      Alert.alert('Oops','Something went wrong❌');
       console.error(error);
     }
   };
