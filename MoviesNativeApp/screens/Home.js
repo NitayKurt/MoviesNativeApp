@@ -4,7 +4,7 @@ import { Avatar, Button, Card} from 'react-native-paper';
 import { useState } from 'react';
 import { auth, database } from '../firebase-config';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
-import { collection, addDoc, doc,getDocs, query, where } from 'firebase/firestore';
+import { collection, addDoc,getDocs, query, where } from 'firebase/firestore';
 import axios from 'axios';
 import {API_KEY_MOVIE_TMDB } from '@env';
 
@@ -88,7 +88,7 @@ export default function Home() {
         await addDoc(collection(userFavoritesDoc.ref, 'movies'), movie);
       }
   
-      alert(`${movie.title} added to favorites`);
+      Alert.alert(`${movie.title} `,'added to favorites successfully ✅');
     } catch (error) {
       Alert.alert('Oops','Something went wrong❗');
       console.error(error);
@@ -147,7 +147,7 @@ export default function Home() {
       </ScrollView>
       </View> 
 
-     {/* //series */}
+     {/* //Series */}
      <View>
       <Text style={styles.header}>Series📹</Text>
       <ScrollView horizontal={true}>
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
   },
   cardTitle:{
-    color: 'white', // Modified card title color
+    color: 'white', 
     fontSize: 20,
     backgroundColor: 'black',
     alignContent: 'center',

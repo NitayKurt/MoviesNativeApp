@@ -1,6 +1,6 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, Image,Linking, Alert} from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, Text, View, Image, Alert} from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { collection, query, where, getDocs, deleteDoc, doc, getDoc } from 'firebase/firestore';
+import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { auth, database } from '../firebase-config';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { Avatar, Button, Card } from 'react-native-paper';
@@ -115,16 +115,17 @@ export default function Favourites() {
   };
 
   return (
-    <View style={styles.main}>
+    <SafeAreaView style={styles.main}>
       <Text style={styles.header}>My Favorites⭐</Text>
-      
+      <ScrollView vertical={true}>
       {/* // Movies */}
       <View>
+      <Text style={styles.header}>Movies🎬</Text>
       <ScrollView horizontal={true}>
         {favorites.map((movie, index) => (movie.media_type  === 'movie') && (
           <View  key={index}>
               <Card style={styles.cardContainer}>
-                    <Card.Title title={movie.title || movie.name} subtitle={movie.release_date || movie.first_air_date} left={LeftContent} />
+                    <Card.Title titleStyle={styles.cardTitle} title={movie.title || movie.name} subtitleStyle={styles.cardTitle} theme={{ colors: { text: 'white'} }} subtitle={movie.release_date || movie.first_air_date} left={LeftContent} />
                       <Card.Content>
                         <View style={styles.textContainer}>
                           <Text style={styles.infoText}>
@@ -145,13 +146,46 @@ export default function Favourites() {
           </View>
         ))}
       </ScrollView>
+      </View>
+      {/* // Series */}
+      <View>
+      <Text style={styles.header}>Series📹</Text>
+      <ScrollView horizontal={true}>
+        {favorites.map((movie, index) => (movie.media_type  === 'tv') && (
+          <View  key={index}>
+              <Card style={styles.cardContainer}>
+                    <Card.Title titleStyle={styles.cardTitle} title={movie.title || movie.name} subtitleStyle={styles.cardTitle} theme={{ colors: { text: 'white'} }} subtitle={movie.release_date || movie.first_air_date} left={LeftContent} />
+                      <Card.Content>
+                        <View style={styles.textContainer}>
+                          <Text style={styles.infoText}>
+                          <Text style={styles.boldText}>Type:</Text> {movie.media_type}</Text>
+
+                          <Text style={styles.infoText}>
+                          <Text style={styles.boldText}>Rating:</Text> {movie.vote_average}✨</Text>
+
+                          <Text style={styles.descriptionText} numberOfLines={3}>
+                          <Text style={{fontWeight:"bold"}}>Description:</Text>{movie.overview}</Text>
+                        </View>
+                        <Image source={{ uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}` }} style={styles.image} />
+                      </Card.Content>
+                        <Card.Actions>
+                          <Button style={styles.removeButton} onPress={() => removeFromFavorites(movie)}>Remove from Favorites</Button>
+                        </Card.Actions>
+              </Card>
+          </View>
+        ))}
+      </ScrollView>
+      </View>
+
+    </ScrollView>
+
       <View>
         <Button onPress={() => signOut(auth)} style={styles.signOut}>
          <Text style={{color:"white", fontSize:15}}>Sign out</Text>
         </Button>
       </View>
-    </View>
-    </View>
+   
+    </SafeAreaView>
   );
 }
 
@@ -175,7 +209,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
   },
-  
   header:{
     color:"white",
     fontSize:20,
@@ -184,22 +217,44 @@ const styles = StyleSheet.create({
     
   },
   cardContainer: {
+    backgroundColor:'black',
+    color:'white',
     borderRadius: 10,
     marginHorizontal: 10,
     marginBottom: 20,
     width: 450,
   },
+  titleContainer: {
+    backgroundColor: 'black',
+    color: 'white',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  cardTitle:{
+    color: 'white', 
+    fontSize: 20,
+    backgroundColor: 'black',
+    alignContent: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
   textContainer: {
+    color:'white',
     marginBottom: 10,
   },
   boldText: {
     fontWeight: "bold",
   },
   infoText: {
+    color:'white',
     fontSize: 16,
     marginBottom: 5,
   },
   descriptionText: {
+    color:'white',
     fontSize: 14,
     marginBottom: 10,
     flexWrap: 'wrap',
@@ -214,4 +269,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+
+
+
 });
