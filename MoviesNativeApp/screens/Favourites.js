@@ -101,8 +101,8 @@ export default function Favourites() {
       const movieIndex = favoriteMovies.findIndex((m) => m.id === movie.id);//get the index of the movie to be removed
       if (movieIndex === -1) {
         console.log('Movie not found in favorites');
-        Alert.alert('Oops','Movie not found in favorites❗');
-        return;
+       return Alert.alert('Oops','Movie not found in favorites❗');
+
       }
 
       await deleteDoc(doc(userFavoritesDoc.ref, 'movies', moviesSnapshot.docs[movieIndex].id));//delete the movie from the user's favorites
@@ -122,7 +122,7 @@ export default function Favourites() {
       <View>
       <Text style={styles.header}>Movies🎬</Text>
       <ScrollView horizontal={true}>
-        {favorites.map((movie, index) => (movie.media_type  === 'movie') && (
+        {favorites.length > 0 ? ( favorites.map((movie, index) => (movie.media_type  === 'movie') && (
           <View  key={index}>
               <Card style={styles.cardContainer}>
                     <Card.Title titleStyle={styles.cardTitle} title={movie.title || movie.name} subtitleStyle={styles.cardTitle} theme={{ colors: { text: 'white'} }} subtitle={movie.release_date || movie.first_air_date} left={LeftContent} />
@@ -144,14 +144,17 @@ export default function Favourites() {
                         </Card.Actions>
               </Card>
           </View>
-        ))}
+        )))
+        :
+        (<Text style={styles.noData}>No movies found in favorites</Text>)
+        }
       </ScrollView>
       </View>
       {/* // Series */}
       <View>
       <Text style={styles.header}>Series📹</Text>
       <ScrollView horizontal={true}>
-        {favorites.map((movie, index) => (movie.media_type  === 'tv') && (
+      {favorites.length > 0 ? ( favorites.map((movie, index) => (movie.media_type  === 'tv') && (
           <View  key={index}>
               <Card style={styles.cardContainer}>
                     <Card.Title titleStyle={styles.cardTitle} title={movie.title || movie.name} subtitleStyle={styles.cardTitle} theme={{ colors: { text: 'white'} }} subtitle={movie.release_date || movie.first_air_date} left={LeftContent} />
@@ -173,7 +176,10 @@ export default function Favourites() {
                         </Card.Actions>
               </Card>
           </View>
-        ))}
+        )))
+        :
+        ( <Text style={styles.noData}>No series found in favorites</Text>)
+        }
       </ScrollView>
       </View>
 
@@ -269,7 +275,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
+  noData:{
+    color:"white",
+    fontSize:20,
+    textAlign:"center",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 
 
 });
