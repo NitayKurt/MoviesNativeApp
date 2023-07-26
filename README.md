@@ -1,4 +1,4 @@
-# MoviesNativeApp
+# MoviesNativeApp🎥
 MoviesNativeApp
 Based on the TMDB API we made an Android app & a Web app that can search for movies or series and display information for the user plus you can add to your favorites the movie or the series you want to watch later.
 It's made By React Native and Firebase of Google ENJOY!
