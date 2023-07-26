@@ -4,18 +4,24 @@ Based on the TMDB API we made an Android app & a Web app that can search for mov
 It's made By React Native and Firebase of Google ENJOY!
 
 # Login Page
-![image](https://github.com/NitayKurt/MoviesNativeApp/assets/104898225/3be10997-4dda-42a1-8a90-aee5684c0767)
+![image](https://github.com/NitayKurt/MoviesNativeApp/assets/104898225/059f0585-ed72-467f-86b5-e48fbe8ad46c)
+
 
 # Register Page
-![image](https://github.com/NitayKurt/MoviesNativeApp/assets/104898225/8b61dc5f-a987-41ad-95e4-968acec006ac)
+![image](https://github.com/NitayKurt/MoviesNativeApp/assets/104898225/0a689bae-8e63-4e55-9ce6-cbb7f1b307f3)
+
 
 # Home Page
-![image](https://github.com/NitayKurt/MoviesNativeApp/assets/104898225/99e038e1-efe0-4c66-bd41-93f7b81ac7fc)
+![image](https://github.com/NitayKurt/MoviesNativeApp/assets/104898225/0ed909e1-6873-4601-805f-3f85a709faec)
+![image](https://github.com/NitayKurt/MoviesNativeApp/assets/104898225/04a91b62-0dbd-4592-923e-776f45ce3d10)
+
 
 # Favorites Page
-![image](https://github.com/NitayKurt/MoviesNativeApp/assets/104898225/493827a6-ef2c-4c25-81ec-403a85a3e88a)
+![image](https://github.com/NitayKurt/MoviesNativeApp/assets/104898225/ed3de450-5165-4096-b381-1254b7f15a42)
 
-# About us Page
-![image](https://github.com/NitayKurt/MoviesNativeApp/assets/104898225/f75a9701-894e-4568-b0ef-0e426f3da6d0)
+
+# About Us Page
+![image](https://github.com/NitayKurt/MoviesNativeApp/assets/104898225/761498d0-7458-4589-a118-e7804dafdc7e)
+
 
 
